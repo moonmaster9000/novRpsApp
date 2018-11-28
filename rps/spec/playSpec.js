@@ -1,13 +1,25 @@
 function Requests(){
     this.play = function(p1, p2, ui){
-        if (!["rock", "paper", "scissors"].includes(p1) || !["rock", "paper", "scissors"].includes(p2))
+        if (invalid(p1) || invalid(p2))
             ui.invalid()
-        else if (p1 === p2)
+        else if (draw(p1, p2))
             ui.tie()
-        else if (p1 === "rock" && p2 === "scissors" || p1 === "scissors" && p2 === "paper" || p1 === "paper" && p2 === "rock")
+        else if (p1Wins(p1, p2))
             ui.p1Wins()
         else
             ui.p2Wins()
+    }
+
+    function invalid(p1) {
+        return !["rock", "paper", "scissors"].includes(p1)
+    }
+
+    function draw(p1, p2) {
+        return p1 === p2;
+    }
+
+    function p1Wins(p1, p2) {
+        return p1 === "rock" && p2 === "scissors" || p1 === "scissors" && p2 === "paper" || p1 === "paper" && p2 === "rock";
     }
 }
 
