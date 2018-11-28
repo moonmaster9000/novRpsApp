@@ -1,5 +1,11 @@
 function Requests() {
-    this.play = function(p1, p2, ui){
+    this.play = function (p1, p2, ui) {
+        new PlayRequest(p1, p2, ui).process()
+    }
+}
+
+function PlayRequest(p1, p2, ui){
+    this.process = function(){
         if (invalid(p1) || invalid(p2))
             ui.invalid()
         else if (draw(p1, p2))
@@ -8,26 +14,26 @@ function Requests() {
             ui.p1Wins()
         else
             ui.p2Wins()
-
-        function invalid(aThrow) {
-            return !["rock", "paper", "scissors"].includes(aThrow)
-        }
-
-        function draw() {
-            return p1 === p2
-        }
-
-        function p1Wins() {
-            return (
-                p1 === "rock" && p2 === "scissors" ||
-                p1 === "scissors" && p2 === "paper" ||
-                p1 === "paper" && p2 === "rock"
-            )
-        }
-
     }
 
+    function invalid(shape) {
+        let validThrows = ["rock", "paper", "scissors"]
+        return !validThrows.includes(shape)
+    }
+
+    function draw() {
+        return p1 === p2
+    }
+
+    function p1Wins() {
+        return (
+            p1 === "rock"     && p2 === "scissors" ||
+            p1 === "scissors" && p2 === "paper"    ||
+            p1 === "paper"    && p2 === "rock"
+        )
+    }
 }
+
 
 describe("play", function () {
     let ui, requests
