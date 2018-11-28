@@ -8,9 +8,9 @@ function PlayRequest(p1, p2, ui){
     this.process = function(){
         if (invalid(p1) || invalid(p2))
             ui.invalid()
-        else if (draw(p1, p2))
+        else if (draw())
             ui.tie()
-        else if (p1Wins(p1, p2))
+        else if (p1Wins())
             ui.p1Wins()
         else
             ui.p2Wins()
