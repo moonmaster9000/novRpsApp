@@ -130,9 +130,9 @@ describe("play form", function () {
         domFixture.remove()
     }
 
-    function renderForm(alwaysInvalid) {
+    function renderForm(requests) {
         ReactDOM.render(
-            <PlayForm requests={alwaysInvalid}/>,
+            <PlayForm requests={requests}/>,
             domFixture
         )
     }
