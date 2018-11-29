@@ -2,8 +2,20 @@ const React = require("react")
 const ReactDOM = require("react-dom")
 
 class PlayForm extends React.Component {
+    constructor(){
+        super()
+        this.state = {message:""}
+    }
+
+    handleSubmit(){
+        this.setState({message: "INVALID"})
+    }
+
     render(){
-        return <h1>Hello World!</h1>
+        return <div>
+            {this.state.message}
+            <button onClick={this.handleSubmit.bind(this)}>PLAY</button>
+        </div>
     }
 }
 
@@ -25,8 +37,55 @@ describe("play form", function () {
                 domFixture
             )
 
+            expect(domFixture.innerText).not.toContain("INVALID")
             document.querySelector("button").click()
             expect(domFixture.innerText).toContain("INVALID")
+
+            domFixture.remove()
         })
     })
+
+    describe("the game logic reported that P1 won", function () {
+        it("jklfdsjaklfdsa", function () {
+
+        })
+
+    })
+
+    describe("the game logic reported that P2 won", function () {
+        it("jklfdsjaklfdsa", function () {
+
+        })
+
+    })
+
+    describe("the game logic reported that they tied", function () {
+        it("jklfdsjaklfdsa", function () {
+
+        })
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 })
