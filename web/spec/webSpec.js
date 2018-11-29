@@ -117,25 +117,22 @@ describe("play form", function () {
         })
     })
 
+    function fillIn(inputName, inputValue) {
+        let input = document.querySelector(`[name='${inputName}']`)
+        input.value = inputValue
+        ReactTestUtils.Simulate.change(input)
+    }
+
     it("sends the user input to the game module", function () {
         let playSpy = jasmine.createSpy()
 
         renderForm({play: playSpy})
 
-        let input = document.querySelector("[name='p1Throw']")
-        input.value = "foo"
-        ReactTestUtils.Simulate.change(input)
-
-        input = document.querySelector("[name='p2Throw']")
-        input.value = "bar"
-        ReactTestUtils.Simulate.change(input)
-
-        //fill in p2 throw
-        //submit the form
+        fillIn("p1Throw", "foo")
+        fillIn("p2Throw", "bar")
 
         submitForm()
 
-        //verify the game logic received those inputs
         expect(playSpy).toHaveBeenCalledWith("foo", "bar", jasmine.any(Object))
     })
 
