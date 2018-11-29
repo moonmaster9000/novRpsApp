@@ -9,7 +9,7 @@ class PlayForm extends React.Component {
     }
 
     handleSubmit(){
-        this.props.requests.play("p1 throw placeholder", "p2 throw placeholder", this)
+        this.props.requests.play(this.state.p1Throw, this.state.p2Throw, this)
     }
 
     invalid(){
@@ -28,10 +28,15 @@ class PlayForm extends React.Component {
         this.setState({message: "P2 Wins!"})
     }
 
+    handleInputChange(e){
+        this.setState({[e.target.name]: e.target.value})
+    }
+
     render(){
         return <div>
             {this.state.message}
-            <input name="p1Throw"/>
+            <input name="p1Throw" onChange={this.handleInputChange.bind(this)}/>
+            <input name="p2Throw" onChange={this.handleInputChange.bind(this)}/>
             <button onClick={this.handleSubmit.bind(this)}>PLAY</button>
         </div>
     }
@@ -120,7 +125,11 @@ describe("play form", function () {
         let input = document.querySelector("[name='p1Throw']")
         input.value = "foo"
         ReactTestUtils.Simulate.change(input)
-        //fill in p1 throw
+
+        input = document.querySelector("[name='p2Throw']")
+        input.value = "bar"
+        ReactTestUtils.Simulate.change(input)
+
         //fill in p2 throw
         //submit the form
 
