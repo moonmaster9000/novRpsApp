@@ -9,7 +9,7 @@ class PlayForm extends React.Component {
     }
 
     handleSubmit(){
-        this.props.requests.play(this.state.p1Throw, this.state.p2Throw, this)
+        this.props.requests.playRound(this.state.p1Throw, this.state.p2Throw, this)
     }
 
     invalid(){
@@ -46,7 +46,7 @@ describe("play form", function () {
     describe("the game logic reported that the round was invalid", function () {
         beforeEach(function () {
             let alwaysInvalid = {
-                play: function(p1, p2, ui){
+                playRound: function(p1, p2, ui){
                     ui.invalid()
                 }
             }
@@ -64,7 +64,7 @@ describe("play form", function () {
     describe("the game logic reported that P1 won", function () {
         beforeEach(function () {
             let p1AlwaysWins = {
-                play: function(p1, p2, ui){
+                playRound: function(p1, p2, ui){
                     ui.p1Wins()
                 }
             }
@@ -82,7 +82,7 @@ describe("play form", function () {
     describe("the game logic reported that P2 won", function () {
         beforeEach(function () {
             let p2AlwaysWins = {
-                play: function(p1, p2, ui){
+                playRound: function(p1, p2, ui){
                     ui.p2Wins()
                 }
             }
@@ -101,7 +101,7 @@ describe("play form", function () {
     describe("the game logic reported that it was a tie", function () {
         beforeEach(function () {
             let alwaysTies = {
-                play: function(p1, p2, ui){
+                playRound: function(p1, p2, ui){
                     ui.tie()
                 }
             }
@@ -126,7 +126,7 @@ describe("play form", function () {
     it("sends the user input to the game module", function () {
         let playSpy = jasmine.createSpy()
 
-        renderForm({play: playSpy})
+        renderForm({playRound: playSpy})
 
         fillIn("p1Throw", "foo")
         fillIn("p2Throw", "bar")
