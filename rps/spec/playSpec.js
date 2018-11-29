@@ -1,10 +1,11 @@
-const Requests = require("../src/rps")
+const {Requests} = require("../src/rps")
+const FakeRoundRepo = require("./FakeRoundRepo")
 
 describe("playRound", function () {
     let ui, requests
 
     beforeEach(function () {
-        requests = new Requests()
+        requests = new Requests(new FakeRoundRepo())
     })
 
     describe("p1 win scenarios", function () {

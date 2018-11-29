@@ -1,46 +1,7 @@
 const React = require("react")
 const ReactDOM = require("react-dom")
 const ReactTestUtils = require("react-dom/test-utils")
-
-class PlayForm extends React.Component {
-    constructor(){
-        super()
-        this.state = {message:""}
-    }
-
-    handleSubmit(){
-        this.props.requests.playRound(this.state.p1Throw, this.state.p2Throw, this)
-    }
-
-    invalid(){
-        this.setState({message: "INVALID"})
-    }
-
-    tie(){
-        this.setState({message: "TIE"})
-    }
-
-    p1Wins(){
-        this.setState({message: "P1 Wins!"})
-    }
-
-    p2Wins(){
-        this.setState({message: "P2 Wins!"})
-    }
-
-    handleInputChange(e){
-        this.setState({[e.target.name]: e.target.value})
-    }
-
-    render(){
-        return <div>
-            {this.state.message}
-            <input name="p1Throw" onChange={this.handleInputChange.bind(this)}/>
-            <input name="p2Throw" onChange={this.handleInputChange.bind(this)}/>
-            <button onClick={this.handleSubmit.bind(this)}>PLAY</button>
-        </div>
-    }
-}
+const PlayForm = require("../src/components/PlayForm.js")
 
 describe("play form", function () {
     describe("the game logic reported that the round was invalid", function () {
@@ -117,12 +78,6 @@ describe("play form", function () {
         })
     })
 
-    function fillIn(inputName, inputValue) {
-        let input = document.querySelector(`[name='${inputName}']`)
-        input.value = inputValue
-        ReactTestUtils.Simulate.change(input)
-    }
-
     it("sends the user input to the game module", function () {
         let playSpy = jasmine.createSpy()
 
@@ -136,36 +91,14 @@ describe("play form", function () {
         expect(playSpy).toHaveBeenCalledWith("foo", "bar", jasmine.any(Object))
     })
 
-
-    let domFixture
-
-    beforeEach(function () {
-        setupDOM()
-    })
-
-    afterEach(function () {
-        cleanupDOM()
-    })
-
-    function setupDOM() {
-        domFixture = document.createElement("div")
-        domFixture.id = "hello"
-        document.body.appendChild(domFixture)
-    }
-
-    function cleanupDOM() {
-        domFixture.remove()
+    function fillIn(inputName, inputValue) {
+        let input = document.querySelector(`[name='${inputName}']`)
+        input.value = inputValue
+        ReactTestUtils.Simulate.change(input)
     }
 
     function renderForm(requests) {
-        ReactDOM.render(
-            <PlayForm requests={requests}/>,
-            domFixture
-        )
-    }
-
-    function page() {
-        return domFixture.innerText;
+        renderComponent(<PlayForm requests={requests}/>)
     }
 
     function submitForm() {
