@@ -1,17 +1,22 @@
 function Requests() {
-    this.playRound = function (p1Throw, p2Throw, ui) {
-        new PlayRoundRequest(p1Throw, p2Throw, ui).process()
+    this.playRound = function (p1Throw, p2Throw, ui, repo) {
+        new PlayRoundRequest(p1Throw, p2Throw, ui, repo).process()
     }
 
-    this.getHistory = function(ui){
-        ui.noRounds()
+    this.getHistory = function(ui, repo){
+        if (repo.isEmpty())
+            ui.noRounds()
+        else
+            ui.rounds(repo.all())
     }
 }
 
-function PlayRoundRequest(p1Throw, p2Throw, ui){
+function PlayRoundRequest(p1Throw, p2Throw, ui, repo){
     this.process = function(){
-        if (invalid(p1Throw) || invalid(p2Throw))
+        if (invalid(p1Throw) || invalid(p2Throw)){
             ui.invalid()
+            repo.save(new Round(p1Throw, p2Throw, "invalid"))
+        }
         else if (tie())
             ui.tie()
         else if (p1Wins())
@@ -38,4 +43,7 @@ function PlayRoundRequest(p1Throw, p2Throw, ui){
     }
 }
 
-module.exports = Requests
+
+function Round(){}
+
+module.exports = {Requests,Round}
