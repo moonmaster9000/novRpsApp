@@ -8,7 +8,23 @@ class PlayForm extends React.Component {
     }
 
     handleSubmit(){
+        this.props.requests.play("p1 throw placeholder", "p2 throw placeholder", this)
+    }
+
+    invalid(){
         this.setState({message: "INVALID"})
+    }
+
+    tie(){
+        this.setState({message: "TIE"})
+    }
+
+    p1Wins(){
+        this.setState({message: "P1 Wins!"})
+    }
+
+    p2Wins(){
+        this.setState({message: "P2 Wins!"})
     }
 
     render(){
@@ -21,71 +37,111 @@ class PlayForm extends React.Component {
 
 describe("play form", function () {
     describe("the game logic reported that the round was invalid", function () {
-        it("display 'INVALID' to the user", function () {
-            let domFixture = document.createElement("div")
-            domFixture.id = "hello"
-            document.body.appendChild(domFixture)
-
+        beforeEach(function () {
             let alwaysInvalid = {
                 play: function(p1, p2, ui){
                     ui.invalid()
                 }
             }
 
-            ReactDOM.render(
-                <PlayForm requests={alwaysInvalid}/>,
-                domFixture
-            )
+            renderForm(alwaysInvalid)
+        })
 
-            expect(domFixture.innerText).not.toContain("INVALID")
-            document.querySelector("button").click()
-            expect(domFixture.innerText).toContain("INVALID")
-
-            domFixture.remove()
+        it("display 'INVALID' to the user", function () {
+            expect(page()).not.toContain("INVALID")
+            submitForm()
+            expect(page()).toContain("INVALID")
         })
     })
 
     describe("the game logic reported that P1 won", function () {
-        it("jklfdsjaklfdsa", function () {
+        beforeEach(function () {
+            let p1AlwaysWins = {
+                play: function(p1, p2, ui){
+                    ui.p1Wins()
+                }
+            }
 
+            renderForm(p1AlwaysWins)
         })
-
+        
+        it("displays 'P1 Wins!'", function () {
+            expect(page()).not.toContain("P1 Wins!")
+            submitForm()
+            expect(page()).toContain("P1 Wins!")
+        })
     })
 
     describe("the game logic reported that P2 won", function () {
-        it("jklfdsjaklfdsa", function () {
+        beforeEach(function () {
+            let p2AlwaysWins = {
+                play: function(p1, p2, ui){
+                    ui.p2Wins()
+                }
+            }
 
+            renderForm(p2AlwaysWins)
         })
 
+
+        it("displays 'P2 Wins!'", function () {
+            expect(page()).not.toContain("P2 Wins!")
+            submitForm()
+            expect(page()).toContain("P2 Wins!")
+        })
     })
 
-    describe("the game logic reported that they tied", function () {
-        it("jklfdsjaklfdsa", function () {
+    describe("the game logic reported that it was a tie", function () {
+        beforeEach(function () {
+            let alwaysTies = {
+                play: function(p1, p2, ui){
+                    ui.tie()
+                }
+            }
 
+            renderForm(alwaysTies)
         })
 
+
+        it("displays 'TIE'", function () {
+            expect(page()).not.toContain("TIE")
+            submitForm()
+            expect(page()).toContain("TIE")
+        })
     })
 
+    let domFixture
 
+    beforeEach(function () {
+        setupDOM()
+    })
 
+    afterEach(function () {
+        cleanupDOM()
+    })
 
+    function setupDOM() {
+        domFixture = document.createElement("div")
+        domFixture.id = "hello"
+        document.body.appendChild(domFixture)
+    }
 
+    function cleanupDOM() {
+        domFixture.remove()
+    }
 
+    function renderForm(alwaysInvalid) {
+        ReactDOM.render(
+            <PlayForm requests={alwaysInvalid}/>,
+            domFixture
+        )
+    }
 
+    function page() {
+        return domFixture.innerText;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    function submitForm() {
+        document.querySelector("button").click()
+    }
 })
